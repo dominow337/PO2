@@ -1,10 +1,16 @@
 #pragma once
 #include <iostream>
+#include <string>
 using namespace std;
 class List
 {
 private:
-	struct Node();
+	struct Node()
+	{
+		string word;
+		Node* next;
+		Node();
+	};
 	Node* find(const size_t);
 	void pop(const size_t);
 	void push(const Point&, const size_t);
