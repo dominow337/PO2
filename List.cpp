@@ -106,10 +106,10 @@ List::List(const List & list) : size(list.size), first(nullptr)
 //destruktor
 List::~List()
 {
-	//while (size > 0)
-	//{
-	//	pop_front();
-	//}
+	while (size > 0)
+	{
+		pop_front();
+	}
 
 }
 
@@ -147,6 +147,33 @@ List::Error List::push_back(const Point& point)
 size_t List::getSize()
 {
 	return size;
+}
+
+List::Error List::find_point(Point& idx, const size_t& x)
+{
+	if (getSize() >= idx)
+	{
+		Node* item = find(idx);
+		x = item;
+		return SUCCESS;
+	}
+	else
+	{
+		return OUT_OF_BOUNDS;
+	}
+}
+
+List::Error List::insert(const Point& idx, const size_t x)
+{
+	if (getSize() >= idx)
+	{
+		push(idx, x);
+		return SUCCESS;
+	}
+	else
+	{
+		return OUT_OF_BOUNDS;
+	}
 }
 
 List List::operator+(const List& list)

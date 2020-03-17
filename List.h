@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Point.h"
+using namespace std;
 class List
 {
 private:
@@ -22,7 +23,7 @@ public:
 	List();
 	List(const List&);
 	~List();
-	//destruktor w domu!
+	
 
 	enum Error
 	{
@@ -33,11 +34,12 @@ public:
 	Error pop_front();
 	Error push_back(const Point&);
 	size_t getSize();
+	Error find_point(Point&, const size_t&);
+	Error insert(const Point&, const size_t);
 	List operator+(const List&);
 	List& operator+=(const List&);
 	List& operator=(const List&);
 	List operator--(int);
 
-	//Proszê pamiêtaæ, ¿e to nie jest pe³na implementacja, nale¿y kod uzupe³niæ zgodnie z instrukcj¹
 };
 
