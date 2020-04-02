@@ -84,6 +84,16 @@ void List::pop(const size_t idx)
 	size--;
 }
 
+void List::multiply(List& list, const size_t x)
+{
+	List copy(*this);
+	erase();
+	for (size_t i = 0; i < x; i++)
+	{
+		push(copy, size);
+	}
+}
+
 List::List() : size(0), first(nullptr){}
 
 List::List(const List & list) : size(list.size), first(nullptr)
@@ -103,14 +113,21 @@ List::List(const List & list) : size(list.size), first(nullptr)
 		it = it->next;
 	}
 }
+
 //destruktor
 List::~List()
+{
+	erase();
+}
+
+List::List(const vector<Point>&point) : p(0), point(p){}
+
+void List::erase()
 {
 	while (size > 0)
 	{
 		pop_front();
 	}
-
 }
 
 List::Error List::pop_front()
@@ -124,6 +141,22 @@ List::Error List::pop_front()
 	else
 	{
 		pop(0);
+	}
+
+	return error;
+}
+
+List::Error List::pop_back()
+{
+	List::Error error = List::Error::SUCCESS;
+
+	if (size == 0)
+	{
+		error = List::Error::LIST_EMPTY;
+	}
+	else
+	{
+		pop(size - 1);
 	}
 
 	return error;
@@ -149,12 +182,13 @@ size_t List::getSize()
 	return size;
 }
 
-List::Error List::find_point(Point& idx, const size_t& x)
+
+
+List::Error List::insert(const Point& x, const size_t idx)
 {
 	if (getSize() >= idx)
 	{
-		Node* item = find(idx);
-		x = item;
+		push(x, idx);
 		return SUCCESS;
 	}
 	else
@@ -163,11 +197,47 @@ List::Error List::find_point(Point& idx, const size_t& x)
 	}
 }
 
-List::Error List::insert(const Point& idx, const size_t x)
+List::Error List::copy_paste(const List& list)
+{
+	List::Error error = SUCCESS;
+	//const size_t x = list.size; //nie ma koniecnzoœci ¿eby to przechowaæ w zmienne,
+	//List A;
+	//A.first = list.first;
+
+	List copy(list);
+	this->erase();
+
+	List::Node* y = copy.first;
+	List::Node* last = nullptr;
+
+	if (y)
+	{
+		this->first = new Node(y->point);
+		last = first;
+		y = y->next;
+		while (y)
+		{
+			//if(y)
+			//{
+				last->next = new Node(y->point);
+				last = last->next;
+			//}
+				y = y->next;
+		}
+	}
+	else
+	{
+		error = List::Error::LIST_EMPTY;
+	}
+	return error;
+}
+
+List::Error List::find_point(Point& x, const size_t idx)
 {
 	if (getSize() >= idx)
 	{
-		push(idx, x);
+		List::Node *y = find(idx);
+		x = y->point;
 		return SUCCESS;
 	}
 	else
@@ -192,7 +262,7 @@ List& List::operator+=(const List& list)
 List & List::operator=(const List & list)
 {
 	List copy(list);
-	this->~List(); 
+	erase();
 	push(copy, 0);
 	return *this;
 }

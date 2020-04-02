@@ -1,16 +1,19 @@
 #include "List.h"
-
+#include "Point.h"
 int main()
 {
-	for (int j = 0; j < 1000; j)
+	while(true)
 	{
-		for (Point& i = 0; i < 1000; i++)
+		List  * list = new List();
+		for (int i = 0; i < 10; i++)
 		{
-			List::insert(i);
+			Point p(i, i, i);
+			list->insert(p, i);
 		}
-		for(Point& i = 0; i < 1000; i++)
+		delete list;
+		while (list->getSize() > 0)
 		{
-			List::pop_front(i);
+			list->pop_front();
 		}
 	}
 }
