@@ -1,5 +1,4 @@
 #include "List.h"
-
 List::Node * List::find(const size_t idx)
 {
 	Node * node = first;
@@ -120,7 +119,18 @@ List::~List()
 	erase();
 }
 
-List::List(const vector<Point>&point) : p(0), point(p){}
+List::List(const vector<Point>&points) : size(0), first(nullptr)
+{
+	/*for (auto it = points.begin(); it != points.end(); ++it)
+	{
+		push_back(*it);
+	}*/
+
+	for(size_t i = points.size()-1; i >= 0; i++)
+	{
+		push(points[i], 0);
+	}
+}
 
 void List::erase()
 {
@@ -272,4 +282,37 @@ List List::operator--(int)
 	List copy(*this);
 	pop_back();
 	return copy;
+}
+
+List List::operator*(const size_t x)
+{
+	List copy(*this);
+	multiply(copy, x);
+	return copy;
+}
+//list[3] = Point()
+Point& List::operator[](const size_t idx)
+{
+	return find(idx)->point;
+}
+
+List List::operator++(int)
+{
+	List copy(*this);
+	erase();
+	return copy;
+}
+
+ostream& operator<<(ostream& outputStream, const List& list)
+{
+	List::Node* y = list.first;
+	for (size_t i = 0; i < list.size; i++)
+	{
+		outputStream << i << ". ";
+		outputStream << y->point.x << " ";
+		outputStream << y->point.y << " ";
+		outputStream << y->point.z << endl;
+		y = y->next;
+	}
+	return outputStream;
 }

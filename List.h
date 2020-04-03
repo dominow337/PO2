@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iostream>
 #include "Point.h"
 using namespace std;
 class List
@@ -19,8 +20,7 @@ private:
 	void push(const List&, const size_t);
 	void pop(const size_t);
 	void multiply(List&, const size_t);
-	const vector<Point> point;
-	vector<Point> p;
+
 public:
 	List();
 	List(const List&);
@@ -46,6 +46,9 @@ public:
 	List& operator+=(const List&);
 	List& operator=(const List&);
 	List operator--(int);
-
+	List operator*(const size_t);
+	Point& operator[](const size_t);
+	List operator++(int);
+	friend ostream & operator<<(ostream &, const List&);
 };
 
